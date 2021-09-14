@@ -48,6 +48,8 @@ func StringMatcherWithPrefix(v, prefix string) *matcherpb.StringMatcher {
 	// the Envoy StringMatcher doesn't allow empty prefix/suffix.
 	case v == "*":
 		return StringMatcherRegex(".+")
+	case strings.HasPrefix(v, "regex:"):
+		return StringMatcherRegex(v[6:])
 	case strings.HasPrefix(v, "*"):
 		if prefix == "" {
 			return &matcherpb.StringMatcher{
